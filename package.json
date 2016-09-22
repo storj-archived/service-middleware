@@ -1,0 +1,33 @@
+{
+  "name": "storj-service-middleware",
+  "version": "1.0.0",
+  "description": "common middleware for various storj services",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/storj/service-middleware.git"
+  },
+  "keywords": [
+    "storj",
+    "bridge",
+    "middleware"
+  ],
+  "author": "Gordon Hall <gordon@storj.io>",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/storj/service-middleware/issues"
+  },
+  "homepage": "https://github.com/storj/service-middleware#readme",
+  "dependencies": {
+    "basic-auth": "^1.0.4",
+    "concat-stream": "^1.5.2",
+    "elliptic": "^6.3.2",
+    "storj-service-error-types": "^1.0.0"
+  }
+}
