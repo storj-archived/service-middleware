@@ -29,5 +29,9 @@
     "concat-stream": "^1.5.2",
     "elliptic": "^6.3.2",
     "storj-service-error-types": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "sinon": "^1.17.6"
   }
 }
