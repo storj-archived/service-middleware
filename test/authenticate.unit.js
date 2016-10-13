@@ -173,6 +173,26 @@ describe('Authenticate', function() {
         done();
       });
     });
+    it('will give error from publickey findOne', function(done) {
+      sandbox.stub(middlewares.authenticate, '_verifySignature').returns(true);
+      var req = {
+        header: sinon.stub().returns('pubkey')
+      };
+      var res = {};
+      var storage = {
+        models: {
+          PublicKey: {
+            findOne: sinon.stub().returns({
+              exec: sinon.stub().callsArgWith(0, new Error('test'))
+            })
+          }
+        }
+      };
+      middlewares.authenticate._ecdsa(storage, req, res, function(err) {
+        expect(err).to.be.instanceOf(Error);
+        done();
+      });
+    });
     it('will give error if user not found', function(done) {
       sandbox.stub(middlewares.authenticate, '_verifySignature').returns(true);
       var req = {
@@ -196,6 +216,32 @@ describe('Authenticate', function() {
       };
       middlewares.authenticate._ecdsa(storage, req, res, function(err) {
         expect(err).to.be.instanceOf(errors.NotAuthorizedError);
+        done();
+      });
+    });
+    it('will give an error from user findOne', function(done) {
+      sandbox.stub(middlewares.authenticate, '_verifySignature').returns(true);
+      var req = {
+        header: sinon.stub().returns('pubkey')
+      };
+      var res = {};
+      var pubkey = {
+        user: 'userId'
+      };
+      var storage = {
+        models: {
+          PublicKey: {
+            findOne: sinon.stub().returns({
+              exec: sinon.stub().callsArgWith(0, null, pubkey)
+            })
+          },
+          User: {
+            findOne: sinon.stub().callsArgWith(1, new Error('test'))
+          }
+        }
+      };
+      middlewares.authenticate._ecdsa(storage, req, res, function(err) {
+        expect(err).to.be.instanceOf(Error);
         done();
       });
     });
@@ -337,6 +383,14 @@ describe('Authenticate', function() {
       req.header.onSecondCall().returns('pubkey');
       var strategy = middlewares.authenticate._detectStrategy(req);
       expect(strategy).to.equal('BASIC');
+    });
+    it('will return NONE', function() {
+      var req = {
+        headers: {},
+        header: sinon.stub()
+      };
+      var strategy = middlewares.authenticate._detectStrategy(req);
+      expect(strategy).to.equal('NONE');
     });
   });
   describe('#_getParams', function() {
