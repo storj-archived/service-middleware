@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const publicBucket = require('../lib/public-bucket.js');
 
-describe('public-bucket', function() {
+describe('Public Bucket', function() {
 
   var Bucket = {};
   var params = {};
