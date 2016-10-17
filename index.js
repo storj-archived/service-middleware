@@ -8,5 +8,6 @@ module.exports = {
   rawbody: require('./lib/rawbody'),
   authenticate: require('./lib/authenticate'),
   errorhandler: require('./lib/error-handler'),
-  tokenauth: require('./lib/token-auth')
+  tokenauth: require('./lib/token-auth'),
+  publicBucket: require('./lib/public-bucket')
 };
