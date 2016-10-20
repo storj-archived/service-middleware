@@ -39,7 +39,7 @@
   },
   "devopsBase": {
     "npmLinkDeps": {
-      "storj-lib": "core"
+      "storj-service-error-types": "service-error-types"
     }
   }
 }
