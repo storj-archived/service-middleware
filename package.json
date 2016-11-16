@@ -28,7 +28,6 @@
   "dependencies": {
     "basic-auth": "^1.0.4",
     "concat-stream": "^1.5.2",
-    "elliptic": "^6.3.2",
     "secp256k1": "^3.2.2",
     "storj-service-error-types": "^1.0.0"
   },
