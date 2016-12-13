@@ -1,6 +1,6 @@
 {
   "name": "storj-service-middleware",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "common middleware for various storj services",
   "main": "index.js",
   "directories": {
