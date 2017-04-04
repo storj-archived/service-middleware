@@ -16,3 +16,8 @@ var app = require('express')();
 app.use(middleware.authenticate(db));
 app.use(middleware.errorhandler());
 ```
+
+## TODO: Added rate-limiter documentation 
+
+// instantiate the rate limiter with a redis client `client` and your express app `app`
+app.use(middleware.rateLimiter(client, app));

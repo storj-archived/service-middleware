@@ -10,5 +10,5 @@ module.exports = {
   errorhandler: require('./lib/error-handler'),
   tokenauth: require('./lib/token-auth'),
   publicBucket: require('./lib/public-bucket'),
-  ratelimiter: require('./lib/rate-limiter')
+  rateLimiter: require('./lib/rate-limiter')
 };
