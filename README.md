@@ -17,7 +17,24 @@ app.use(middleware.authenticate(db));
 app.use(middleware.errorhandler());
 ```
 
-## TODO: Added rate-limiter documentation 
+# Rate Limiter 
 
-// instantiate the rate limiter with a redis client `client` and your express app `app`
+Instantiate the rate limiter with a redis client `client` and your express app `app`
+
+```
+const client = require('redis').createClient();
+const app = express();
 app.use(middleware.rateLimiter(client, app));
+```
+
+# Testing
+
+Redis must be running for the tests to work. The easiest way to get an instance running is
+via Docker. 
+
+```
+$ docker run --name redis -p 6379:6379 -d redis
+```
+
+Then, `npm test` will kick off the test suite for you.
+
