@@ -53,3 +53,9 @@ $ docker run --name redis -p 6379:6379 -d redis
 ```
 
 Then, `npm test` will kick off the test suite for you.
+
+# License
+
+Credit for much of the rate limiter code goes to [https://github.com/juliendangers/express-limiter2](juliendangers/express-limiter2) released under the MIT license.
+
+All other code released under AGPLv3.
