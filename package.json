@@ -28,14 +28,19 @@
   "dependencies": {
     "basic-auth": "^1.0.4",
     "concat-stream": "^1.5.2",
+    "redis": "^2.7.1",
     "secp256k1": "^3.2.2",
     "storj-service-error-types": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "express": "^4.15.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.2",
-    "sinon": "^1.17.6"
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.9.0",
+    "supertest": "^3.0.0",
+    "valentine": "^2.1.4"
   },
   "devopsBase": {
     "npmLinkDeps": {

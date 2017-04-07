@@ -12,6 +12,8 @@ packages:
   - clang
 node_js:
   - "6.9.1"
+services:
+  - redis-server
 before_install:
   - export CXX="g++-4.8" CC="gcc-4.8"
 after_script:
