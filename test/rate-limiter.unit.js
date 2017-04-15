@@ -215,8 +215,28 @@ describe('rate-limiter', function() {
   });
 
   context('no database connection should skip limiter', function() {
-    it('should pass limiter', (done) => {
+    it('should pass limiter w/o client', (done) => {
       limiter = subject(undefined, app);
+
+      limiter({
+        path: '/route',
+        method: 'get'
+      });
+
+      app.get('/route', function(req, res) {
+        res.status(200).send('hello');
+      });
+
+      request(app)
+        .get('/route')
+        .expect(200, function(err) {
+          assert.equal(err, null);
+          done(err);
+        });
+    });
+
+    it('should pass limiter w/o connection', (done) => {
+      limiter = subject({connected: false}, app);
 
       limiter({
         path: '/route',
