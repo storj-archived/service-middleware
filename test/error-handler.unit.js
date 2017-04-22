@@ -29,7 +29,7 @@ describe('Error Handler', function() {
     expect(send.callCount).to.equal(1);
     expect(send.args[0][0]).to.deep.equal({error: 'test'});
   });
-  it('will log error and send status code 402 with message', function() {
+  it('will NOT log error and send status code 402 with message', function() {
     var options = {
       logger: {
         error: sinon.stub()
@@ -47,13 +47,12 @@ describe('Error Handler', function() {
       status: status
     };
     handler(err, req, res);
-    expect(options.logger.error.callCount).to.equal(2);
+    expect(options.logger.error.callCount).to.equal(0);
     expect(res.status.callCount).to.equal(1);
-    expect(res.status.args[0][0]).to.equal(402);
     expect(send.callCount).to.equal(1);
     expect(send.args[0][0]).to.deep.equal({error: 'test'});
   });
-  it('will log error and send status code 400 when error code is greater than 500', function() {
+  it('will NOT log error and send status code 400 when error code is greater than 500', function() {
     var options = {
       logger: {
         error: sinon.stub()
@@ -71,7 +70,7 @@ describe('Error Handler', function() {
       status: status
     };
     handler(err, req, res);
-    expect(options.logger.error.callCount).to.equal(2);
+    expect(options.logger.error.callCount).to.equal(0);
     expect(res.status.callCount).to.equal(1);
     expect(res.status.args[0][0]).to.equal(400);
     expect(send.callCount).to.equal(1);
