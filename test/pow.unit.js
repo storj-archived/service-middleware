@@ -179,8 +179,56 @@ describe('POW Middleware', function() {
   });
 
   describe('#getChallenge', function() {
-    it('will create a new challenge', function() {
+    let beginTime = 0;
+    let clock = null;
+    const count = 1000;
+    const startTarget = '0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+    const sandbox = sinon.sandbox.create();
+    const opts = {
+      retargetPeriod: 1000,
+      retargetCount: 500
+    };
 
+    beforeEach(function() {
+      clock = sandbox.useFakeTimers();
+      beginTime = Date.now();
+      redis.hset('contact-stats', 'timestamp', beginTime);
+      redis.hset('contact-stats', 'count', count);
+      redis.hset('contact-stats', 'target', startTarget);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+      clock.restore();
+    });
+
+    it('will create a new challenge', function(done) {
+      pow.getChallenge(redis, opts, function(err, data) {
+        if (err) {
+          return done(err);
+        }
+        expect(data.challenge.length).to.equal(32 * 2);
+        expect(data.target).to.equal(startTarget);
+        done();
+      });
+    });
+
+    it('will handle error from getTarget', function(done) {
+      sandbox.stub(pow, 'getTarget').callsArgWith(2, new Error('test'));
+      pow.getChallenge(redis, opts, function(err, data) {
+        expect(err).to.be.instanceOf(Error);
+        expect(err.message).to.equal('test');
+        done();
+      });
+    });
+
+    it('will handle error from db', function(done) {
+      sandbox.stub(redis, 'set').callsArgWith(4, new Error('test'));
+      pow.getChallenge(redis, opts, function(err, data) {
+        expect(err).to.be.instanceOf(Error);
+        expect(err.message).to.equal('test');
+        done();
+      });
     });
 
   });
