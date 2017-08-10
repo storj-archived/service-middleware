@@ -27,8 +27,10 @@
   "homepage": "https://github.com/storj/service-middleware#readme",
   "dependencies": {
     "basic-auth": "^1.0.4",
+    "bn.js": "^4.11.8",
     "concat-stream": "^1.5.2",
     "redis": "^2.7.1",
+    "scrypt": "^6.0.3",
     "secp256k1": "^3.2.2",
     "storj-service-error-types": "^1.0.0"
   },
