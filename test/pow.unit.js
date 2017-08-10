@@ -110,13 +110,76 @@ describe('POW Middleware', function() {
   });
 
   describe('#getTarget', function() {
-    it('', function() {
+    let beginTime = 0;
+    let clock = null;
+    const count = 1000;
+    const startTarget = '0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+    const moreTarget = '00008020c470b2c58f96b6655747ba7ec17c0bbf25f0299e34081a55c1a88168';
+    const lessTarget = '000200831243a46f8b7e22f09add3b84e6593ad9c5aea066e841726623f65458';
 
+    const sandbox = sinon.sandbox.create();
+
+    beforeEach(function() {
+      clock = sandbox.useFakeTimers();
+      beginTime = Date.now();
+      redis.hset('contact-stats', 'timestamp', beginTime);
+      redis.hset('contact-stats', 'count', count);
+      redis.hset('contact-stats', 'target', startTarget);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+      clock.restore();
+    });
+
+    it('it will adjust the difficulty (less)', function(done) {
+      const opts = {
+        retargetPeriod: 1000,
+        retargetCount: 2000
+      };
+      clock.tick(1001);
+      pow.getTarget(redis, opts, function(err, target) {
+        if (err) {
+          return done(err);
+        }
+        expect(target).to.equal(lessTarget);
+        done();
+      });
+    });
+
+    it('it will adjust the difficulty (more)', function(done) {
+      const opts = {
+        retargetPeriod: 1000,
+        retargetCount: 500
+      };
+      clock.tick(1001);
+      pow.getTarget(redis, opts, function(err, target) {
+        if (err) {
+          return done(err);
+        }
+        expect(target).to.equal(moreTarget);
+        done();
+      });
+    });
+
+    it('will not adjust the difficulty', function() {
+      const opts = {
+        retargetPeriod: 1000,
+        retargetCount: 500
+      };
+      clock.tick(999);
+      pow.getTarget(redis, opts, function(err, target) {
+        if (err) {
+          return done(err);
+        }
+        expect(target).to.equal(startTarget);
+        done();
+      });
     });
   });
 
   describe('#getChallenge', function() {
-    it('', function() {
+    it('will create a new challenge', function() {
 
     });
 
