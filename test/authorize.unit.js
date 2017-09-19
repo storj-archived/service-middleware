@@ -36,6 +36,7 @@ describe('Authorize', function() {
         expect(err).to.be.instanceOf(Error);
         expect(err.code).to.equal(404);
         expect(user).to.be.undefined;
+        expect(req.authorized).to.equal(false);
         done();
       });
     });
@@ -63,6 +64,7 @@ describe('Authorize', function() {
 
       authMiddleware(req, res, function(err) {
         expect(err).to.be.instanceOf(Error);
+        expect(req.authorized).to.equal(false);
         done();
       });
     });
@@ -90,6 +92,7 @@ describe('Authorize', function() {
 
       authMiddleware(req, res, function(err) {
         expect(err).to.equal(undefined);
+        expect(req.authorized).to.equal(true);
         done();
       });
     });
@@ -115,6 +118,7 @@ describe('Authorize', function() {
       const authMiddleware = authorize(storage)('admin');
 
       authMiddleware(req, res, function(err) {
+        expect(req.authorized).to.equal(false);
         expect(err).to.be.instanceOf(Error);
         done();
       });
@@ -142,7 +146,36 @@ describe('Authorize', function() {
       const authMiddleware = authorize(storage)('user');
 
       authMiddleware(req, res, function(err) {
+        expect(req.authorized).to.equal(true);
         expect(err).to.be.undefined;
+        done();
+      });
+    });
+
+    it('should throw error if no role is passed to `authorize` middleware', function (done) {
+      const user = {
+        _id: 'dylan@storj.io',
+        role: 'user'
+      }
+
+      const storage = {
+        models: {
+          User: {
+            findById: sinon.stub().callsArgWith(1, null, user)
+          }
+        }
+      }
+
+      const req = {
+        user: user
+      };
+      const res = {};
+
+      const authMiddleware = authorize(storage)();
+
+      authMiddleware(req, res, function(err, role) {
+        expect(err).to.be.instanceOf(Error);
+        expect(req.authorized).to.equal(false);
         done();
       });
     });

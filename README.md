@@ -39,10 +39,32 @@ app.get('/route', limiter({
   },
   total: 150,
   expire: 1000 * 60 // 150 requests a minute allowed
-  }), function(req, res) {
+}), function(req, res) {
   res.status(200).send('hello');
 });
 ```
+
+# Role Authorization 
+
+There are three roles by default: 
+
+- admin
+- moderator
+- user
+
+Middleware defaults to `user` if no role is given or if the specified role doesn't
+match an existing defined role. 
+
+
+```javascript
+const authorize = middleware.authorize; 
+
+app.get('/protected-route', authorize('admin'), (req, res, next) => {
+  res.status(200).send('User is an admin!')
+});
+```
+
+Adds an `authorized` property to the `req` object, which can also be checked on requests. 
 
 # Testing
 
