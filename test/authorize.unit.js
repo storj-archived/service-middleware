@@ -179,5 +179,33 @@ describe('Authorize', function() {
         done();
       });
     });
+
+    it('should default to `user` if no matched role is found', function (done) {
+      const user = {
+        _id: 'dylan@storj.io',
+        role: 'user'
+      }
+
+      const storage = {
+        models: {
+          User: {
+            findById: sinon.stub().callsArgWith(1, null, user)
+          }
+        }
+      }
+
+      const req = {
+        user: user
+      };
+      const res = {};
+
+      const authMiddleware = authorize(storage)('asdf');
+
+      authMiddleware(req, res, function(err) {
+        expect(err).to.be.instanceOf(Error);
+        expect(req.authorized).to.equal(false);
+        done();
+      });
+    });
   });
 });
