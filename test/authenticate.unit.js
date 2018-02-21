@@ -112,7 +112,7 @@ describe('Authenticate', function() {
         }
       };
       middlewares.authenticate._basic(storage, req, res, function(err) {
-        expect(err).to.be.instanceOf(errors.NotAuthorizedError);
+        expect(err).to.be.instanceOf(errors.ForbiddenError);
         done();
       });
     });
@@ -270,7 +270,7 @@ describe('Authenticate', function() {
         }
       };
       middlewares.authenticate._ecdsa(storage, req, res, function(err) {
-        expect(err).to.be.instanceOf(errors.NotAuthorizedError);
+        expect(err).to.be.instanceOf(errors.ForbiddenError);
         done();
       });
     });
