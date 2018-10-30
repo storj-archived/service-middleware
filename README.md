@@ -1,3 +1,5 @@
+**Notice: Development on this repository is currently on pause during our v3 rearchitecture. Please see [storj/storj](https://github.com/storj/storj) for ongoing v3 development.**
+
 # Storj Service Middleware
 
 Common Express middleware for various Storj services.
